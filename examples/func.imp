@@ -15,4 +15,8 @@ func exp(a: int, n: int): int {
   }
 }
 
+func exp_novars(a: int, n: int): int {
+  
+}
+
 print_int(exp(read_int(), read_int()))

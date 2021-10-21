@@ -55,7 +55,13 @@ void Interp::Run()
       case Opcode::ADD: {
         auto rhs = PopInt();
         auto lhs = PopInt();
-        Push(lhs + rhs);
+
+        long res = rhs + lhs;
+
+        if(res < 0 && rhs >= 0 && lhs >= 0){
+          throw RuntimeError("overflow error");
+        }
+        Push(res);
         continue;
       }
       case Opcode::SUB: {

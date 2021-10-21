@@ -1,0 +1,8 @@
+func print_int(a: int): int = "print_int"
+func read_int(): int = "read_int"
+
+func multiply(a: int, b: int): int {
+  return a * b
+}
+
+print_int(multiply(read_int(), read_int()))

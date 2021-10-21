@@ -33,11 +33,10 @@ Token &Token::operator=(const Token &that)
   switch (kind_) {
     case Kind::STRING:
     case Kind::IDENT: {
-      // delete value_.StringValue;
+      delete value_.StringValue;
       break;
     }
     case Kind::INT: {
-      // delete &value_.IntValue;
       break;
     }
     default: {
