@@ -61,6 +61,11 @@ void Interp::Run()
         if(res < 0 && rhs >= 0 && lhs >= 0){
           throw RuntimeError("overflow error");
         }
+
+        if(res >= 0 && rhs < 0 && lhs < 0){
+          throw RuntimeError("overflow error");
+        }
+
         Push(res);
         continue;
       }
