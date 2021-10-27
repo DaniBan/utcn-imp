@@ -198,6 +198,25 @@ std::shared_ptr<Expr> Parser::ParseAddSubExpr()
 }
 
 // -----------------------------------------------------------------------------
+std::shared_ptr<Expr> Parser::ParseMulDivExpr()
+{
+  std::shared_ptr<Expr> term = ParseCallExpr();
+  while (Current().Is(Token::Kind::MUL) || Current().Is(Token::Kind::DIV)) {
+  if(Current().Is(Token::Kind::MUL)){
+    lexer_.Next();
+    auto rhs = ParseCallExpr();
+    term = std::make_shared<BinaryExpr>(BinaryExpr::Kind::MUL, term, rhs);
+  } else {
+    lexer_.Next();
+    auto rhs = ParseCallExpr();
+    term = std::make_shared<BinaryExpr>(BinaryExpr::Kind::DIV, term, rhs);
+  }
+    
+  }
+  return term;
+}
+
+// -----------------------------------------------------------------------------
 const Token &Parser::Expect(Token::Kind kind)
 {
   lexer_.Next();

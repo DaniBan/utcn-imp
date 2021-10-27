@@ -74,6 +74,40 @@ void Interp::Run()
       	auto lhs = PopInt();
       	Push(lhs - rhs);
       	continue;
+      }//add here mul and div as well
+      case Opcode::MUL: {
+        auto rhs = PopInt();
+        auto lhs = PopInt();
+
+        long res = rhs * lhs;
+
+        // if(res < 0 && rhs >= 0 && lhs >= 0){
+        //   throw RuntimeError("overflow error");
+        // }
+
+        // if(res >= 0 && rhs < 0 && lhs < 0){
+        //   throw RuntimeError("overflow error");
+        // }
+
+        Push(res);
+        continue;
+      }
+      case Opcode::DIV: {
+        auto rhs = PopInt();
+        auto lhs = PopInt();
+
+        long res = rhs / lhs;
+
+        // if(res < 0 && rhs >= 0 && lhs >= 0){
+        //   throw RuntimeError("overflow error");
+        // }
+
+        // if(res >= 0 && rhs < 0 && lhs < 0){
+        //   throw RuntimeError("overflow error");
+        // }
+
+        Push(res);
+        continue;
       }
       case Opcode::RET: {
         auto depth = prog_.Read<unsigned>(pc_);
