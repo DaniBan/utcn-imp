@@ -37,6 +37,7 @@ public:
     FUNC,
     RETURN,
     WHILE,
+    IF,
     // Symbols.
     LPAREN,
     RPAREN,
@@ -45,12 +46,16 @@ public:
     COLON,
     SEMI,
     EQUAL,
-    GREATER,
     COMMA,
     PLUS,
     MINUS,
     MUL,
     DIV,
+    GREATER,
+    LOWER,
+    GREATER_EQ,
+    LOWER_EQ,
+    IS_EQ,
     // Complex tokens.
     INT,
     STRING,
@@ -110,15 +115,23 @@ public:
   static Token Colon(const Location &l) { return Token(l, Kind::COLON); }
   static Token Semi(const Location &l) { return Token(l, Kind::SEMI); }
   static Token Equal(const Location &l) { return Token(l, Kind::EQUAL); }
-  // static Token Gerater(const Location &l) { return Token(l, Kind::GREATER); }
   static Token Plus(const Location &l) { return Token(l, Kind::PLUS); }
   static Token Minus(const Location &l) { return Token(l, Kind::MINUS); }
-  static Token Multiply(const Location &l) { return Token(l, Kind::MUL); }
+  static Token Mul(const Location &l) { return Token(l, Kind::MUL); }
+
+  static Token Greater(const Location &l) { return Token(l, Kind::GREATER); }
+  static Token Lower(const Location &l) { return Token(l, Kind::LOWER); }
+  static Token GreaterEqual(const Location &l) { return Token(l, Kind::GREATER_EQ); }
+  static Token LowerEqual(const Location &l) { return Token(l, Kind::LOWER_EQ); }
+  static Token IsEqual(const Location &l) { return Token(l, Kind::IS_EQ); }
+
   static Token Divide(const Location &l) { return Token(l, Kind::DIV); }
   static Token Comma(const Location &l) { return Token(l, Kind::COMMA); }
   static Token Func(const Location &l) { return Token(l, Kind::FUNC); }
   static Token Return(const Location &l) { return Token(l, Kind::RETURN); }
   static Token While(const Location &l) { return Token(l, Kind::WHILE); }
+  static Token If(const Location &l) { return Token(l, Kind::IF); }
+
   static Token Ident(const Location &l, const std::string &str);
   static Token String(const Location &l, const std::string &str);
   static Token Integer(const Location &l, const uint64_t &n);

@@ -109,6 +109,51 @@ void Interp::Run()
         Push(res);
         continue;
       }
+      case Opcode::GREATER: {
+        auto rhs = PopInt();
+        auto lhs = PopInt();
+
+        long res = rhs > lhs;
+
+        Push(res);
+        continue;
+      }
+      case Opcode::LOWER: {
+        auto rhs = PopInt();
+        auto lhs = PopInt();
+
+        long res = rhs < lhs;
+        
+        Push(res);
+        continue;
+      }
+      case Opcode::GREATER_EQ: {
+        auto rhs = PopInt();
+        auto lhs = PopInt();
+
+        long res = rhs >= lhs;
+        
+        Push(res);
+        continue;
+      }
+      case Opcode::LOWER_EQ: {
+        auto rhs = PopInt();
+        auto lhs = PopInt();
+
+        long res = rhs <= lhs;
+        
+        Push(res);
+        continue;
+      }
+      case Opcode::IS_EQ: {
+        auto rhs = PopInt();
+        auto lhs = PopInt();
+
+        long res = rhs == lhs;
+        
+        Push(res);
+        continue;
+      }
       case Opcode::RET: {
         auto depth = prog_.Read<unsigned>(pc_);
         auto nargs = prog_.Read<unsigned>(pc_);

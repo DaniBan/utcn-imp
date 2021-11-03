@@ -145,8 +145,12 @@ std::ostream &operator<<(std::ostream &os, const Token::Kind kind)
     case Token::Kind::PLUS: return os << "+";
     case Token::Kind::MINUS: return os << "-";
     case Token::Kind::MUL: return os << "*";
-    case Token::Kind::DIV: return os << "-";
-    // case Token::Kind::GREATER: return os << ">";
+    case Token::Kind::DIV: return os << "/";
+    case Token::Kind::GREATER: return os << ">";
+    case Token::Kind::LOWER: return os << "<";
+    case Token::Kind::GREATER_EQ: return os << ">=";
+    case Token::Kind::LOWER_EQ: return os << "<=";
+    case Token::Kind::IS_EQ: return os << "==";
     case Token::Kind::END: return os << "END";
     case Token::Kind::INT: return os << "INT";
     case Token::Kind::STRING: return os << "STRING";
@@ -206,11 +210,33 @@ const Token &Lexer::Next()
     case '}': return NextChar(), tk_ = Token::RBrace(loc);
     case ':': return NextChar(), tk_ = Token::Colon(loc);
     case ';': return NextChar(), tk_ = Token::Semi(loc);
-    case '=': return NextChar(), tk_ = Token::Equal(loc);
+    case '=': {
+      NextChar();
+      if(chr_ == '='){
+        return NextChar(), tk_ = Token::IsEqual(loc);
+      }
+      return tk_ = Token::Equal(loc);
+    }
     case '+': return NextChar(), tk_ = Token::Plus(loc);
     case '-': return NextChar(), tk_ = Token::Minus(loc);
-    case '*': return NextChar(), tk_ = Token::Multiply(loc);
+    case '*': return NextChar(), tk_ = Token::Mul(loc);
     case '/': return NextChar(), tk_ = Token::Divide(loc);
+    case '>': {
+      NextChar();
+      if(chr_ == '=') {
+        return NextChar(), tk_ = Token::GreaterEqual(loc);
+      } else {
+        return tk_ = Token::Greater(loc);
+      }
+    }
+    case '<': {
+      NextChar();
+      if(chr_ == '=') {
+        return NextChar(), tk_ = Token::LowerEqual(loc);
+      } else {
+        return tk_ = Token::Lower(loc);
+      }
+    }
     case ',': return NextChar(), tk_ = Token::Comma(loc);
     // case '>': return NextChar(), tk_ = Token::Greater(loc);
     case '"': {

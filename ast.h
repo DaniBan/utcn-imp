@@ -22,6 +22,7 @@ public:
   enum class Kind {
     BLOCK,
     WHILE,
+    IF,
     EXPR,
     RETURN
   };
@@ -84,7 +85,7 @@ class BinaryExpr : public Expr {
 public:
   /// Enumeration of binary operators.
   enum class Kind {
-    ADD, SUB, MUL, DIV
+    ADD, SUB, MUL, DIV, GREATER, LOWER, GREATER_EQ, LOWER_EQ, IS_EQ
   };
 
 public:
@@ -230,6 +231,34 @@ private:
   std::shared_ptr<Expr> cond_;
   /// Expression to be executed in the loop body.
   std::shared_ptr<Stmt> stmt_;
+};
+
+/**
+ * If statement.
+ *
+ * if (<cond>) <stmt>
+ */
+class IfStmt final : public Stmt {
+public:
+  IfStmt(std::shared_ptr<Expr> cond, std::shared_ptr<Stmt> stmt, std::shared_ptr<Stmt> else_stmt)
+    : Stmt(Kind::IF)
+    , cond_(cond)
+    , stmt_(stmt)
+    , else_(else_stmt)
+  {
+  }
+
+  const Expr &GetCond() const { return *cond_; }
+  const Stmt &GetStmt() const { return *stmt_; }
+  const shared_ptr<Stmt> else_
+
+private:
+  /// Condition for the loop.
+  std::shared_ptr<Expr> cond_;
+  /// Expression to be executed in the if body.
+  std::shared_ptr<Stmt> stmt_;
+  /// Expression to be executed in the else body.
+  std::shared_ptr<Stmt> else_;
 };
 
 /**

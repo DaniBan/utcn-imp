@@ -179,20 +179,45 @@ std::shared_ptr<Expr> Parser::ParseCallExpr()
 }
 
 // -----------------------------------------------------------------------------
+std::shared_ptr<Expr> Parser::ParseCompExpr()
+{
+  std::shared_ptr<Expr> term = ParseAddSubExpr();
+  while (Current().Is(Token::Kind::GREATER) || Current().Is(Token::Kind::LOWER) || Current().Is(Token::Kind::GREATER_EQ) || Current().Is(Token::Kind::LOWER_EQ) || Current().Is(Token::Kind::IS_EQ)) {
+  
+  lexer_.Next();
+  auto rhs = ParseAddSubExpr();
+
+  if(Current().Is(Token::Kind::GREATER)){
+    term = std::make_shared<BinaryExpr>(BinaryExpr::Kind::GREATER, term, rhs);
+  } else if (Current().Is(Token::Kind::LOWER)){
+    term = std::make_shared<BinaryExpr>(BinaryExpr::Kind::LOWER, term, rhs);
+  } else if (Current().Is(Token::Kind::GREATER_EQ)) {
+    term = std::make_shared<BinaryExpr>(BinaryExpr::Kind::GREATER_EQ, term, rhs);
+  } else if (Current().Is(Token::Kind::LOWER_EQ)) {
+    term = std::make_shared<BinaryExpr>(BinaryExpr::Kind::LOWER_EQ, term, rhs);
+  } else {
+    term = std::make_shared<BinaryExpr>(BinaryExpr::Kind::IS_EQ, term, rhs);
+  }
+
+  }
+  return term;
+}
+
+// -----------------------------------------------------------------------------
 std::shared_ptr<Expr> Parser::ParseAddSubExpr()
 {
-  std::shared_ptr<Expr> term = ParseCallExpr();
+  std::shared_ptr<Expr> term = ParseMulDivExpr();
   while (Current().Is(Token::Kind::PLUS) || Current().Is(Token::Kind::MINUS)) {
   if(Current().Is(Token::Kind::PLUS)){
     lexer_.Next();
-    auto rhs = ParseCallExpr();
+    auto rhs = ParseMulDivExpr();
     term = std::make_shared<BinaryExpr>(BinaryExpr::Kind::ADD, term, rhs);
   } else {
     lexer_.Next();
-    auto rhs = ParseCallExpr();
+    auto rhs = ParseMulDivExpr();
     term = std::make_shared<BinaryExpr>(BinaryExpr::Kind::SUB, term, rhs);
   }
-    
+
   }
   return term;
 }
@@ -211,7 +236,7 @@ std::shared_ptr<Expr> Parser::ParseMulDivExpr()
     auto rhs = ParseCallExpr();
     term = std::make_shared<BinaryExpr>(BinaryExpr::Kind::DIV, term, rhs);
   }
-    
+
   }
   return term;
 }

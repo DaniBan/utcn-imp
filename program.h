@@ -25,6 +25,11 @@ enum class Opcode : uint8_t {
   SUB,
   MUL,
   DIV,
+  GREATER,
+  LOWER,
+  GREATER_EQ,
+  LOWER_EQ,
+  IS_EQ,
   RET,
 
   JUMP_FALSE,
