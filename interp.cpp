@@ -72,7 +72,18 @@ void Interp::Run()
       case Opcode::SUB: {
       	auto rhs = PopInt();
       	auto lhs = PopInt();
-      	Push(lhs - rhs);
+
+        long res = lhs - rhs;
+
+        if(res > 0 && rhs >= 0 && lhs <= 0){
+          throw RuntimeError("overflow error");
+        }
+
+        if(res < 0 && rhs < 0 && lhs >= 0){
+          throw RuntimeError("overflow error");
+        }
+
+      	Push(res);
       	continue;
       }//add here mul and div as well
       case Opcode::MUL: {
@@ -81,14 +92,6 @@ void Interp::Run()
 
         long res = rhs * lhs;
 
-        // if(res < 0 && rhs >= 0 && lhs >= 0){
-        //   throw RuntimeError("overflow error");
-        // }
-
-        // if(res >= 0 && rhs < 0 && lhs < 0){
-        //   throw RuntimeError("overflow error");
-        // }
-
         Push(res);
         continue;
       }
@@ -96,15 +99,22 @@ void Interp::Run()
         auto rhs = PopInt();
         auto lhs = PopInt();
 
-        long res = rhs / lhs;
+        if(rhs == 0) {
+          throw RuntimeError("division by 0");
+        }
+        long res = lhs / rhs;
 
-        // if(res < 0 && rhs >= 0 && lhs >= 0){
-        //   throw RuntimeError("overflow error");
-        // }
+        Push(res);
+        continue;
+      }
+      case Opcode::MOD: {
+        auto rhs = PopInt();
+        auto lhs = PopInt();
 
-        // if(res >= 0 && rhs < 0 && lhs < 0){
-        //   throw RuntimeError("overflow error");
-        // }
+        if(rhs == 0) {
+          throw RuntimeError("division by 0");
+        }
+        long res = lhs % rhs;
 
         Push(res);
         continue;

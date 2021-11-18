@@ -155,12 +155,15 @@ private:
   void EmitReturn();
   /// Emit an add opcode.
   void EmitAdd();
-  /// Emit an sub opcode.
+  /// Emit a sub opcode.
   void EmitSub();
-  /// Emit an mul opcode.
+  /// Emit a mul opcode.
   void EmitMul();
-  /// Emit an div opcode.
+  /// Emit a div opcode.
   void EmitDiv();
+  /// Emit a mod opcode.
+  void EmitMod();
+
 
   /// Emit an greater opcode.
   void EmitGreater();

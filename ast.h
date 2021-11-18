@@ -85,7 +85,7 @@ class BinaryExpr : public Expr {
 public:
   /// Enumeration of binary operators.
   enum class Kind {
-    ADD, SUB, MUL, DIV, GREATER, LOWER, GREATER_EQ, LOWER_EQ, IS_EQ
+    ADD, SUB, MUL, DIV, MOD, GREATER, LOWER, GREATER_EQ, LOWER_EQ, IS_EQ
   };
 
 public:

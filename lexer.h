@@ -52,6 +52,7 @@ public:
     MINUS,
     MUL,
     DIV,
+    MOD,
     GREATER,
     LOWER,
     GREATER_EQ,
@@ -127,6 +128,8 @@ public:
   static Token IsEqual(const Location &l) { return Token(l, Kind::IS_EQ); }
 
   static Token Divide(const Location &l) { return Token(l, Kind::DIV); }
+  static Token Mod(const Location &l) { return Token(l, Kind::MOD); }
+
   static Token Comma(const Location &l) { return Token(l, Kind::COMMA); }
   static Token Func(const Location &l) { return Token(l, Kind::FUNC); }
   static Token Return(const Location &l) { return Token(l, Kind::RETURN); }

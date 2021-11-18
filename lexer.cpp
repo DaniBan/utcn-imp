@@ -223,6 +223,7 @@ const Token &Lexer::Next()
     case '-': return NextChar(), tk_ = Token::Minus(loc);
     case '*': return NextChar(), tk_ = Token::Mul(loc);
     case '/': return NextChar(), tk_ = Token::Divide(loc);
+    case '%': return NextChar(), tk_ = Token::Mod(loc);
     case '>': {
       NextChar();
       if(chr_ == '=') {
