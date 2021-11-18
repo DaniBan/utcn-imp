@@ -153,6 +153,26 @@ void Codegen::LowerWhileStmt(const Scope &scope, const WhileStmt &whileStmt)
   EmitLabel(exit);
 }
 
+
+// -----------------------------------------------------------------------------
+void Codegen::LowerIfStmt(const Scope &scope, const IfStmt &ifStmt)
+{
+  auto entry = MakeLabel();
+  auto elseLabel = MakeLabel();
+  auto exit = MakeLabel();
+
+  EmitLabel(entry);
+  LowerExpr(scope, ifStmt.GetCond());
+  EmitJumpFalse(elseLabel);
+  LowerStmt(scope, ifStmt.GetStmt());
+  EmitJump(exit);
+  EmitLabel(elseLabel);
+  if(auto elseBranch = ifStmt.GetElseStmt()){
+    LowerStmt(scope, *elseBranch);
+  }
+  EmitLabel(exit);
+}
+
 // -----------------------------------------------------------------------------
 void Codegen::LowerReturnStmt(const Scope &scope, const ReturnStmt &retStmt)
 {

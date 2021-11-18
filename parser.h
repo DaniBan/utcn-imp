@@ -40,6 +40,9 @@ private:
   /// Parse a while loop.
   std::shared_ptr<WhileStmt> ParseWhileStmt();
 
+  /// Parse an if statement.
+  std::shared_ptr<IfStmt> ParseIfStmt();
+
   /// Parse a single expression.
   std::shared_ptr<Expr> ParseExpr() { return ParseCompExpr(); }
   /// Parse an expression which has no operators.

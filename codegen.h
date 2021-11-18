@@ -115,7 +115,7 @@ private:
   /// Lowers a while statement.
   void LowerWhileStmt(const Scope &scope, const WhileStmt &whileStmt);
   /// Lowers an if statement.
-  void LowerIfStmt(const Scope &scope, const WhileStmt &ifStmt);
+  void LowerIfStmt(const Scope &scope, const IfStmt &ifStmt);
   /// Lowers a return statement.
   void LowerReturnStmt(const Scope &scope, const ReturnStmt &returnStmt);
   /// Lowers a standalone expression statement.
