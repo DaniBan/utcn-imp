@@ -261,7 +261,7 @@ const Token &Lexer::Next()
           number = number*10 + (chr_ - '0');
           NextChar();
         }
-        NextChar();
+        
         return tk_ = Token::Integer(loc, number);
     }
     default: {
