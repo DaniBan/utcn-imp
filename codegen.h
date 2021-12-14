@@ -39,6 +39,7 @@ private:
       FUNC,
       PROTO,
       ARG,
+      LOCAL
     } Kind;
 
     union {
@@ -58,6 +59,8 @@ private:
     virtual ~Scope();
 
     virtual Binding Lookup(const std::string &name) const = 0;
+    virtual void AddLocal(const std::string &name, uint32_t pos) = 0;
+    virtual int NumberOfLocals() = 0;
 
   protected:
     const Scope *parent_;
@@ -76,6 +79,8 @@ private:
     }
 
     Binding Lookup(const std::string &name) const override;
+    void AddLocal(const std::string &name, uint32_t pos){}
+    int NumberOfLocals(){return 0;}
 
   private:
     const std::map<std::string, Label> &funcs_;
@@ -94,6 +99,8 @@ private:
     }
 
     Binding Lookup(const std::string &name) const override;
+    void AddLocal(const std::string &name, uint32_t pos){}
+    int NumberOfLocals(){return 0;}
 
   private:
     const std::map<std::string, uint32_t> &args_;
@@ -105,21 +112,33 @@ private:
     BlockScope(const Scope *parent) : Scope(parent) {}
 
     Binding Lookup(const std::string &name) const override;
+    void AddLocal(const std::string &name, uint32_t pos) {
+      locals_.insert(std::pair<std::string, uint32_t>(name, pos));
+    }
+    int NumberOfLocals(){
+      return locals_.size();
+    }
+
+
+  private:
+    std::map<std::string, uint32_t> locals_;
   };
 
 private:
   /// Lowers a single statement.
-  void LowerStmt(const Scope &scope, const Stmt &stmt);
+  void LowerStmt(Scope &scope, const Stmt &stmt);
   /// Lowers a block statement.
-  void LowerBlockStmt(const Scope &scope, const BlockStmt &blockStmt);
+  void LowerBlockStmt(Scope &scope, const BlockStmt &blockStmt);
   /// Lowers a while statement.
-  void LowerWhileStmt(const Scope &scope, const WhileStmt &whileStmt);
+  void LowerWhileStmt(Scope &scope, const WhileStmt &whileStmt);
   /// Lowers an if statement.
-  void LowerIfStmt(const Scope &scope, const IfStmt &ifStmt);
+  void LowerIfStmt(Scope &scope, const IfStmt &ifStmt);
   /// Lowers a return statement.
   void LowerReturnStmt(const Scope &scope, const ReturnStmt &returnStmt);
   /// Lowers a standalone expression statement.
   void LowerExprStmt(const Scope &scope, const ExprStmt &exprStmt);
+  /// Lowers a let statement.
+  void LowerLetStmt(Scope &scope, const LetStmt &letStmt);
 
   /// Lowers a single expression.
   void LowerExpr(const Scope &scope, const Expr &expr);

@@ -23,6 +23,7 @@ public:
     BLOCK,
     WHILE,
     IF,
+    LET,
     EXPR,
     RETURN
   };
@@ -259,6 +260,34 @@ private:
   std::shared_ptr<Stmt> stmt_;
   // add else branch here
   std::shared_ptr<Stmt> else_stmt_;
+};
+
+/**
+ * Variable declaration
+ * 
+ * let a:int = ...
+ */
+class LetStmt final: public Stmt{
+public:
+  LetStmt(std::string &name, std::string &type, std::shared_ptr<Expr> initialization)
+    :Stmt(Kind::LET)
+    ,name_(name)
+    ,type_(type)
+    ,initialization_(initialization)
+    {
+    }
+
+  const std::string &GetName() const { return name_; }
+  const std::string &GetType() const { return type_; }
+  std::shared_ptr<Expr> GetInitialisation() const { return initialization_; }
+
+private:
+  // variable name
+  std::string name_;
+  // variable type
+  std::string type_;
+  // initial value
+  std::shared_ptr<Expr> initialization_;
 };
 
 /**
